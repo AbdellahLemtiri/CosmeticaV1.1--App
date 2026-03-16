@@ -14,6 +14,7 @@ class OrderController extends Controller
     public function index()
     {
         //
+        return response()->json(Order::all());
     }
 
     /**
@@ -30,6 +31,10 @@ class OrderController extends Controller
     public function store(StoreOrderRequest $request)
     {
         //
+
+        $data = $request->validated()   ;
+        $order = Order::create($data);
+        return response()->json($order);
     }
 
     /**
@@ -54,6 +59,9 @@ class OrderController extends Controller
     public function update(UpdateOrderRequest $request, Order $order)
     {
         //
+        $data = $request->validated()   ;
+        $order->update($data);
+        return response()->json($order);
     }
 
     /**

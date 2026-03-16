@@ -101,6 +101,11 @@ return [
         ],
     ],
 
+    'api' => [
+            'driver' => 'jwt',  
+            'provider' => 'users',
+        ],
+
     /*
     |--------------------------------------------------------------------------
     | Password Confirmation Timeout

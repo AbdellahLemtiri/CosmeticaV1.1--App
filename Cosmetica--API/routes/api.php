@@ -43,3 +43,5 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/admin/stats', [OrderController::class, 'stats']);
     });
 });
+
+

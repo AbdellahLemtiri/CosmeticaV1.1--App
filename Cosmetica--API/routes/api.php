@@ -8,7 +8,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
 
 Route::prefix('auth')->group(function () {
-    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
 });
 

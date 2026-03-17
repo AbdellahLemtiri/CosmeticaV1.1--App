@@ -38,7 +38,13 @@ class ProductController extends Controller
         $data = $request->validated();
         $data['slug'] = Str::slug($data['name']);
          $product = Product::create($data);
-        return response()->json($product);
+         if($request->file('images')) {
+             foreach($request->file('images') as $image) {
+                 $path = Storage::disk('public')->put('images/products', $image);
+                 $product->images()->create(['path' => $path]);
+             }             
+         }
+        return response()->json($product, 201);
     }
 
     /**

@@ -7,78 +7,55 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
-
-        return response()->json(Product::all());
+        // n-jibo l-produits m3a tsawer dyalhom
+        return response()->json(Product::with('images')->get());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreProductRequest $request)
     {
-        //
+         if ($request->hasFile('images')) {
+            $images = $request->file('images');
+            if (count($images) > 4) {
+                return response()->json([
+                    'message' => 'Limite de 4 images par produit dépassée'
+                ], 422);
+            }
+        }
+
         $data = $request->validated();
-        $data['slug'] = Str::slug($data['name']);
          $product = Product::create($data);
-         if($request->file('images')) {
-             foreach($request->file('images') as $image) {
-                 $path = Storage::disk('public')->put('images/products', $image);
-                 $product->images()->create(['path' => $path]);
-             }             
-         }
-        return response()->json($product, 201);
+
+         if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                 $path = $image->store('images/products', 'public');
+               
+                $product->images()->create(['image_url' => $path]);
+            }
+        }
+ 
+        return response()->json($product->load('images'), 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Product $product)
     {
-        //
+         return response()->json($product->load('images'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Product $product)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        //
         $data = $request->validated();
         $product->update($data);
         return response()->json($product);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Product $product)
-    {
-        //
+    { 
+        $product->delete();
+        return response()->json(['message' => 'Produit supprimé avec succès']);
     }
 }

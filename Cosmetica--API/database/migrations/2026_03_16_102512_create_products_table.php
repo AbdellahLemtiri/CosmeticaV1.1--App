@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('description');
             $table->decimal('price', 8, 2);
             $table->integer('quantity');
+            $table->integer('images_count')->default(0);    
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->timestamps();

@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 class ProductController extends Controller
 {
     /**
@@ -33,6 +35,8 @@ class ProductController extends Controller
     {
         //
         $data = $request->validated();
+        $data['slug'] = Str::slug($data['name']);
+        
         $product = Product::create($data);
         return response()->json($product);
     }

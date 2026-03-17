@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+
 class CategoryController extends Controller
 {
     /**
@@ -33,12 +34,10 @@ class CategoryController extends Controller
     public function store(StoreCategoryRequest $request)
     {
         //
-          $data = $request->validated()   ;
+        Gate::authorize('create', Category::class);
+        $data = $request->validated();
         $category = Category::create($data);
-        $user = Auth::User();
-        return response()->json([$category, $user]);
-
-
+        return response()->json(["message" => "Category created successfully", $category]);
     }
 
     /**
@@ -46,7 +45,9 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        // 
+        
+        return response()->json($category);
     }
 
     /**
@@ -63,11 +64,11 @@ class CategoryController extends Controller
     public function update(UpdateCategoryRequest $request, Category $category)
     {
         //
-        Gate::authorize('update', $category);
-        $data = $request->validated()   ;
+        Gate::authorize('update', Category::class);
+        $data = $request->validated();
         $category->update($data);
-
-        return response()->json($category);
+        $category->update($data);
+        return response()->json(["message" => "Category updated successfully", '$category' => $category],200);
     }
 
     /**
@@ -76,5 +77,9 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         //
+        Gate::authorize('update', Category::class);
+        $category->delete();
+        return response()->json(["message" => "Category deleted successfully"],200);
+         
     }
 }

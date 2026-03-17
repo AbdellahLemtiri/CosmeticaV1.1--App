@@ -6,7 +6,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
-
+use App\Models\Category;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -30,8 +30,9 @@ Route::middleware('auth:api')->group(function () {
 
     Route::middleware('role:admin')->group(function () {
         Route::post('/categories', [CategoryController::class, 'store']);
-        Route::put('/categories/{id}', [CategoryController::class, 'update']);
-        Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
+        Route::put('/categories/{category}', [CategoryController::class, 'update']);
+        Route::get('/categories/{category}', [CategoryController::class, 'show']);
+        Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
         Route::post('/products', [ProductController::class, 'store']);
         Route::put('/products/{id}', [ProductController::class, 'update']);
         Route::delete('/products/{id}', [ProductController::class, 'destroy']);

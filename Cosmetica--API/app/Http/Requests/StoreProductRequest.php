@@ -29,7 +29,6 @@ class StoreProductRequest extends FormRequest
             'description' => 'required|min:3|max:255',
             'quantity' => 'required|numeric',
             'price' => 'required|numeric',
-            'total_price' => 'required',
             'category_id' => 'required',
         ];
     }

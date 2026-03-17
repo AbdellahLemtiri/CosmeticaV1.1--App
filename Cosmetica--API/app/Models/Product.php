@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 class Product extends Model
 {
     /** @use HasFactory<\Database\Factories\ProductFactory> */
-    use HasFactory;
+    use HasFactory,HasSlug;
 
     protected $fillable = [
         'name',
@@ -31,5 +32,21 @@ class Product extends Model
     public function Orders()
     {
         return $this->hasMany(OrderItem::class);
+   }
+
+
+   public function getSlugOptions() : SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom('name') // Y-akhod le slug mn le 'name'
+            ->saveSlugsTo('slug');      // Y-savyh f le champ 'slug'
+    }
+
+     
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 }
+
+

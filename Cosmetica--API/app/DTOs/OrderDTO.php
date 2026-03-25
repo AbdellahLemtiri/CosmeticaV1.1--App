@@ -8,8 +8,7 @@ class OrderDTO
      * Create a new class instance.
      */
     public function __construct(
-        public readonly int $user_id,
-        public readonly array $items
+        public readonly int $user_id,public readonly array $items
     ) {
         //
     }

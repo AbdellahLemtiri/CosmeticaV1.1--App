@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
-import Login from './pages/Login';
-import Register from './pages/Register';
+import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
 
 const Home = () => <div className="p-10 text-3xl font-bold text-gray-800 text-center">Page d'accueil en construction 🚧</div>;
 

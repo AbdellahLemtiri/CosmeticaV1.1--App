@@ -4,8 +4,7 @@ import { useNavigate } from 'react-router-dom';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  // Kan-9raw l-user mn localStorage ila kan dejà connecté
-  const [user, setUser] = useState(() => {
+   const [user, setUser] = useState(() => {
     const savedUser = localStorage.getItem('user');
     return savedUser ? JSON.parse(savedUser) : null;
   });
@@ -25,11 +24,10 @@ export const AuthProvider = ({ children }) => {
     setUser(userData);
     setToken(userToken);
     
-    // Kan-khznu l-user f localStorage
-    localStorage.setItem('user', JSON.stringify(userData));
+     localStorage.setItem('user', JSON.stringify(userData));
 
      const role = userData.roles && userData.roles.length > 0 ? userData.roles[0].name : 'client';
-    
+    user.role = role;
     console.log("Connecté en tant que:", role);
 
     if (role === 'admin') {
